@@ -39,7 +39,8 @@ class IMDBSentimentClassifier(pl.LightningModule):
                     pad_to_max_length=True)
             return x 
         def _prepare_ds(split):
-            ds=nlp.load_dataset('imdb',split=f'{split}[:{FLAGS.batch_size*5 if FLAGS.debug else "5%"}]')
+            ds=nlp.load_dataset('imdb',split=f'{split}[:{FLAGS.batch_size if FLAGS.debug else "100%"}]')
+            ds=ds.shuffle()
             ds=ds.map(_tokenize)
             ds.set_format(type='torch',columns=['input_ids','label'])
             self.ds=ds
@@ -50,11 +51,13 @@ class IMDBSentimentClassifier(pl.LightningModule):
         mask=(input_ids!=0).float()
         logits=self.model(input_ids,mask).logits
         return logits
+        import IPython;IPython.embed();exit(1)
 
     def training_step(self,batch,batch_idx):
         logits=self.forward(batch['input_ids'])
         loss=self.loss(logits,batch['label']).mean()
-        return {'loss':loss,'log':{'train_loss':loss}}
+        self.log('train_loss',loss)
+        return {'loss':loss}
         
 
     def validation_step(self,batch,batch_idx):
@@ -67,8 +70,9 @@ class IMDBSentimentClassifier(pl.LightningModule):
         loss=th.cat([o['loss'] for o in outputs],0).mean()
         acc=th.cat([o['acc'] for o in outputs],0).mean()
         out={'val_loss':loss,'val_acc':acc}
-        return {**out,'log':out}
-        import IPython;IPython.embed();exit(1)
+        self.log('val_loss',loss)
+        self.log('val_acc',acc)
+        return out
 
     def train_dataloader(self):
         return th.utils.data.DataLoader(
@@ -100,8 +104,10 @@ def main(_):
             gpus=(1 if th.cuda.is_available() else 0),
             max_epochs=FLAGS.epochs,
             fast_dev_run=FLAGS.debug,
-            logger=pl.loggers.TensorBoardLogger('logs/',name='imdb',version=0),
-            log_every_n_steps=1
+            logger=pl.loggers.TensorBoardLogger('logs/',name='imdb',
+                version=0,default_hp_metric=False),
+            #log_every_n_steps=1,
+            checkpoint_callback=False,
             )
     trainer.fit(model)
 
