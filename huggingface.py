@@ -46,6 +46,7 @@ class IMDBSentimentClassifier(pl.LightningModule):
             self.ds=ds
             return ds
         self.train_ds,self.test_ds=map(_prepare_ds,('train','test'))
+        import IPython;IPython.embed();exit(1)
 
     def forward(self,input_ids):
         mask=(input_ids!=0).float()
