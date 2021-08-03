@@ -10,7 +10,7 @@ And the address:
 This is a useful demo for huggingface tools, including:
 - nlp for datasets
 - transformers for model zoo
-- 
+
 Current Performance ~90% validation acc
 
 ### 2. DETR Facebook object detection
