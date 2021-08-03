@@ -1,4 +1,4 @@
-# NLP snippets
+# ML snippets
 This is where I save some useful ML code and snippets from different sources.
 ### 1. Huggingface nlp+transformers+imdb->sentiment analysis
 This is based on:
@@ -10,3 +10,21 @@ And the address:
 This is a useful demo for huggingface tools, including:
 - nlp for datasets
 - transformers for model zoo
+
+### 2. DETR Facebook object detection
+
+This is based on:
+> https://www.youtube.com/watch?v=LfUsGv-ESbc
+
+And:
+> https://colab.research.google.com/github/facebookresearch/detr/blob/colab/notebooks/detr_demo.ipynb#scrollTo=bawoKsBC7oBh
+
+This official DETR github:
+> https://github.com/facebookresearch/detr
+
+What is interesting:
+- Cnn+transformers
+- Get around those computational extensive bounding boxes per pixel calculation and use transformers to propose bounding boxes
+
+Limitation:
+- In my small test the dog number is off (5, recognized as 6)
