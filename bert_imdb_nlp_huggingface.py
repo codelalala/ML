@@ -50,7 +50,7 @@ class IMDBSentimentClassifier(pl.LightningModule):
             return ds
         #self.train_ds,self.test_ds=map(_prepare_ds,('train','test'))
 
-        df=pd.read_csv('IMDB_Dataset.csv')
+        df=pd.read_csv('/datasets/IMDB_Dataset.csv')
         #df=df[:1000]
         df=df.rename(columns={"sentiment":"label","review":"text"})
         df['label']=df['label'].replace('positive',1)
