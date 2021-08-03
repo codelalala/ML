@@ -1,6 +1,6 @@
 # NLP snippets
-This is where I save some useful NLP code and snippets from different sources.
-### 1. Huggingface
+This is where I save some useful ML code and snippets from different sources.
+### 1. Huggingface nlp+transformers+imdb->sentiment analysis
 This is based on:
 > https://www.youtube.com/watch?v=G3pOvrKkFuk&list=PL1v8zpldgH3pQwRz1FORZdChMaNZaR3pu&index=17
 
