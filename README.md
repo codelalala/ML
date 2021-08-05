@@ -29,4 +29,13 @@ What is interesting:
 - Get around those computational extensive bounding boxes per pixel calculation and use transformers to propose bounding boxes
 
 Limitation:
-- In my small test the dog number is off (5, recognized as 6)
+- Need to have a score threshold
+
+### 3. DETR Panoptic segmentation detection
+
+This is based on:
+> https://colab.research.google.com/github/facebookresearch/detr/blob/colab/notebooks/DETR_panoptic.ipynb
+
+Need to see that is the difference between this and Umap, but it looks fantastic!
+
+-Detectron2 is broken on colab even with its original colab code, I'll try to use numpy and matplotlib to fix this
