@@ -38,4 +38,4 @@ This is based on:
 
 Need to see that is the difference between this and Umap, but it looks fantastic!
 
--Detectron2 is broken on colab even with its original colab code, I'll try to use numpy and matplotlib to fix this
+- Detectron2 is broken on colab even with its original colab code, I'll try to use numpy and matplotlib to fix this
