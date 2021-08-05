@@ -29,7 +29,7 @@ class IMDBSentimentClassifier(pl.LightningModule):
     def __init__(self):
         super().__init__()
         self.model=transformers.BertForSequenceClassification.from_pretrained(FLAGS.model,num_labels=2)
-        #self.loss=th.nn.CrossEntropyLoss(reduction='none')
+        self.loss=th.nn.CrossEntropyLoss(reduction='none')
 
 
     def prepare_data(self):
@@ -50,8 +50,8 @@ class IMDBSentimentClassifier(pl.LightningModule):
             return ds
         #self.train_ds,self.test_ds=map(_prepare_ds,('train','test'))
 
-        df=pd.read_csv('/datasets/IMDB_Dataset.csv')
-        #df=df[:1000]
+        df=pd.read_csv('./datasets/IMDB_Dataset.csv')
+        df=df[:1000]
         df=df.rename(columns={"sentiment":"label","review":"text"})
         df['label']=df['label'].replace('positive',1)
         df['label']=df['label'].replace('negative',0)
@@ -64,19 +64,19 @@ class IMDBSentimentClassifier(pl.LightningModule):
         return ds
 
     def forward(self,input_ids):
-        pass
-        #mask=(input_ids!=0).float()
-        #logits=self.model(input_ids,mask).logits
-        #return logits
+        #pass
+        mask=(input_ids!=0).float()
+        logits=self.model(input_ids,mask).logits
+        return logits
         #import IPython;IPython.embed();exit(1)
 
     def training_step(self,batch,batch_idx):
-        #logits=self.forward(batch['input_ids'])
-        #loss=self.loss(logits,batch['label']).mean()
-        input_ids=batch['input_ids']
-        labels=batch['label']
-        output=self.model(input_ids,labels=labels)
-        loss=output.loss
+        logits=self.forward(batch['input_ids'])
+        loss=self.loss(logits,batch['label']).mean()
+        #input_ids=batch['input_ids']
+        #labels=batch['label']
+        #output=self.model(input_ids,labels=labels)
+        #loss=output.loss
         #import IPython;IPython.embed();exit(1)
         self.log('train_loss',loss)
         return {'loss':loss}
@@ -84,17 +84,19 @@ class IMDBSentimentClassifier(pl.LightningModule):
 
     def validation_step(self,batch,batch_idx):
         #import IPython;IPython.embed();exit(1)
-        #logits=self.forward(batch['input_ids'])
-        #loss=self.loss(logits,batch['label'])
-        input_ids=batch['input_ids']
-        labels=batch['label']
-        output=self.model(input_ids,labels=labels)
-        loss=output.loss
-        acc=(output.logits.argmax(-1)==batch['label']).float()
+        logits=self.forward(batch['input_ids'])
+        loss=self.loss(logits,batch['label'])
+        acc=(logits.argmax(-1)==batch['label']).float()
+        #input_ids=batch['input_ids']
+        #labels=batch['label']
+        #output=self.model(input_ids,labels=labels)
+        #loss=output.loss
+        #acc=(output.logits.argmax(-1)==batch['label']).float()
         return {'loss':loss,'acc':acc}
 
     def validation_epoch_end(self,outputs):
-        loss=th.stack([o['loss'] for o in outputs],0).mean()
+        #loss=th.stack([o['loss'] for o in outputs],0).mean()
+        loss=th.cat([o['loss'] for o in outputs],0).mean()
         acc=th.cat([o['acc'] for o in outputs],0).mean()
         out={'val_loss':loss,'val_acc':acc}
         self.log('val_loss',loss)
