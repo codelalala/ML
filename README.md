@@ -43,5 +43,7 @@ Need to see that is the difference between this and Umap, but it looks fantastic
 ### 4. Generate Fake pandas dataframe
 This is a short snippet I found on:
 > https://zhuanlan.zhihu.com/p/394857784
+
 It can be used as:
+
 `generate_fake_dataframe(1000,cols='ifcd')`
