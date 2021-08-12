@@ -47,3 +47,9 @@ This is usefull since it is short and easily customizable.
 It can be used as:
 
 `generate_fake_dataframe(1000,cols='ifcd')`
+
+### 5. DEMO in openCV for HDR
+This is a short DEMO from the openCV online tutorial:
+> https://opencv.org/opencv-python-free-course/
+
+This shows how HDR works, with the builtin openCV processing alglrithms
