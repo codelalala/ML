@@ -53,3 +53,8 @@ This is a short DEMO from the openCV online tutorial:
 > https://opencv.org/opencv-python-free-course/
 
 This shows how HDR works, with the builtin openCV processing alglrithms
+
+### DEEP INTEREST NETWORK in Pytorch
+Official github link: https://github.com/zhougr1993/DeepInterestNetwork
+I use code from here as a reference: https://github.com/fanoping/DIN-pytorch
+
